@@ -1,4 +1,4 @@
-FROM node:22-alpine3.21 AS base
+FROM node:24-alpine3.23 AS base
 WORKDIR /app
 
 # https://zenn.dev/hirohokke/scraps/3d3c44b8d47c49 
@@ -29,7 +29,7 @@ COPY --from=build-web --chown=nonroot:nonroot /app/packages/web/dist /usr/share/
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
-FROM node:22-alpine3.21 AS runtime-api
+FROM node:24-alpine3.23 AS runtime-api
 
 COPY --from=build-api --chown=nonroot:nonroot /app/node_modules /app/node_modules
 COPY --from=build-api --chown=nonroot:nonroot /app/package.json /app/package.json

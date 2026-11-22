@@ -9,6 +9,9 @@
   "author": "",
   "license": "ISC",
   "description": "",
+  "devDependencies": {
+    "typescript": "~6.0.3"
+  },
   "workspaces": [
     "packages/database",
     "packages/api",
