@@ -4,7 +4,9 @@
       "@/*": ["./src/*"],
       "@database/*": ["../database/*"]
     },
-    "strict": true
+    "strict": true,
+    "types": ["node"],
+    "skipLibCheck": true
   },
   "include": ["**/*.ts"],
   "exclude": ["./node_modules"]
