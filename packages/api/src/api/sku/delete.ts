@@ -19,6 +19,14 @@ export const deleteSkuRoute = createRoute({
         },
       },
     },
+    404: {
+      description: "Not Found",
+      content: {
+        "application/json": {
+          schema: ErrorResponse,
+        },
+      },
+    },
     500: {
       description: "Internal Server Error",
       content: {

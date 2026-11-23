@@ -2,12 +2,25 @@ import { PrismaClient } from "./generated/prisma";
 
 const prisma = new PrismaClient();
 
-const createSkuRecords = async () => {
-  const sku1 = "石鹸";
-  await prisma.sku.upsert({
-    where: { name: sku1 },
+const createUserRecord = async () => {
+  return await prisma.user.upsert({
+    where: { id: "seed-user" },
     update: {},
     create: {
+      id: "seed-user",
+      name: "シードユーザー",
+      email: "seed-user@example.com",
+    },
+  });
+};
+
+const createSkuRecords = async (userId: string) => {
+  const sku1 = "石鹸";
+  await prisma.sku.upsert({
+    where: { userId_name: { userId, name: sku1 } },
+    update: {},
+    create: {
+      userId,
       name: sku1,
       stock: 10,
       unit: "個",
@@ -16,9 +29,10 @@ const createSkuRecords = async () => {
 
   const sku2 = "塩";
   await prisma.sku.upsert({
-    where: { name: sku2 },
+    where: { userId_name: { userId, name: sku2 } },
     update: {},
     create: {
+      userId,
       name: sku2,
       stock: 2,
       unit: "袋",
@@ -28,9 +42,10 @@ const createSkuRecords = async () => {
 
   const sku3 = "砂糖";
   await prisma.sku.upsert({
-    where: { name: sku3 },
+    where: { userId_name: { userId, name: sku3 } },
     update: {},
     create: {
+      userId,
       name: sku3,
       stock: 2,
       unit: "袋",
@@ -41,7 +56,8 @@ const createSkuRecords = async () => {
 };
 
 const main = async () => {
-  await createSkuRecords();
+  const user = await createUserRecord();
+  await createSkuRecords(user.id);
 };
 
 try {

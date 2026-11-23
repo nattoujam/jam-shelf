@@ -5,8 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  provider      = "prisma-client-js"
+  output        = "../generated/prisma"
   binaryTargets = ["native", "debian-openssl-1.1.x"]
 }
 
@@ -16,12 +16,16 @@ datasource db {
 }
 
 model Sku {
-  id              Int    @id @default(autoincrement())
-  name            String @unique
+  id              Int     @id @default(autoincrement())
+  name            String
   stock           Int
   unit            String
-  warnThreshold   Int    @default(3)
-  dangerThreshold Int    @default(1)
+  warnThreshold   Int     @default(3)
+  dangerThreshold Int     @default(1)
+  userId          String?
+  user            User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, name])
 }
 
 model User {
@@ -34,6 +38,7 @@ model User {
   updatedAt     DateTime  @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
+  skus          Sku[]
 
   @@map("user")
 }

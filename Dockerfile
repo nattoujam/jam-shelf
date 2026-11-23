@@ -34,6 +34,7 @@ FROM node:24-alpine3.23 AS runtime-api
 COPY --from=build-api --chown=nonroot:nonroot /app/node_modules /app/node_modules
 COPY --from=build-api --chown=nonroot:nonroot /app/package.json /app/package.json
 COPY --from=build-api --chown=nonroot:nonroot /app/packages/api /app/packages/api
+COPY --from=build-api --chown=nonroot:nonroot /app/packages/database/package.json /app/packages/database/package.json
 COPY --from=build-api --chown=nonroot:nonroot /app/packages/database/generated /app/packages/database/generated
 COPY --from=build-api --chown=nonroot:nonroot /app/packages/database/prisma /app/packages/database/prisma
 COPY --from=build-api --chown=nonroot:nonroot /app/packages/database/.env /app/packages/database/.env
@@ -41,5 +42,5 @@ COPY --from=build-api --chown=nonroot:nonroot /app/packages/database/.env /app/p
 WORKDIR /app
 
 EXPOSE 5000
-CMD ["npm", "-w", "api", "run", "dev"]
+CMD ["sh", "-c", "npm -w database exec prisma migrate deploy && npm -w api run dev"]
 

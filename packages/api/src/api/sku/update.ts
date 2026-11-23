@@ -31,6 +31,14 @@ export const updateSkuRoute = createRoute({
         },
       },
     },
+    404: {
+      description: "Not Found",
+      content: {
+        "application/json": {
+          schema: ErrorResponse,
+        },
+      },
+    },
     500: {
       description: "Internal Server Error",
       content: {

@@ -1,3 +1,4 @@
+import { createMiddleware } from "hono/factory";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { genericOAuth } from "better-auth/plugins";
@@ -20,4 +21,15 @@ export const auth = betterAuth({
       ],
     }),
   ],
+});
+
+export type SessionEnv = {
+  Variables: { user: typeof auth.$Infer.Session.user };
+};
+
+export const requireSession = createMiddleware<SessionEnv>(async (c, next) => {
+  const session = await auth.api.getSession({ headers: c.req.raw.headers });
+  if (!session) return c.json({ message: "Unauthorized", ok: false }, 401);
+  c.set("user", session.user);
+  await next();
 });
