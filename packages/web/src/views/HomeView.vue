@@ -6,7 +6,7 @@ const session = authClient.useSession()
 function handleLogin() {
   authClient.signIn.social({
     provider: 'pocket-id',
-    callbackURL: `${window.location.origin}/sku/list`,
+    callbackURL: `${window.location.origin}/`,
   })
 }
 </script>
