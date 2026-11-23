@@ -1,14 +1,12 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
-import { PrismaClient } from "@database/generated/prisma";
 
+import { prisma } from "@/db";
 import { getSkuRoute } from "@/api/sku/get";
 import { updateSkuRoute } from "@/api/sku/update";
 import { createSkuRoute } from "@/api/sku/create";
 import { deleteSkuRoute } from "@/api/sku/delete";
 
 export const skuApi = new OpenAPIHono();
-
-const prisma = new PrismaClient();
 
 const InternalServerErrorResponse = (e: any) => ({
   message: "Internal Server Error",

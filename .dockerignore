@@ -1,0 +1,5 @@
+**/node_modules
+**/.env
+packages/database/generated
+packages/database/prisma/*.sqlite
+packages/database/prisma/*.sqlite-journal

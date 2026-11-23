@@ -5,8 +5,9 @@ import { logger } from "hono/logger";
 import { cors } from "hono/cors";
 
 import { api } from "@/api";
+import { auth } from "@/auth";
 
-const corsOrigin = process.env.CORS_ORIGIN ?? 'http://localhost:5173';
+const corsOrigin = process.env.CORS_ORIGIN ?? "http://localhost:5173";
 
 const app = new Hono();
 
@@ -20,8 +21,9 @@ app.use(
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     maxAge: 600,
     credentials: true,
-  })
+  }),
 );
+app.on(["GET", "POST"], "/api/auth/*", (c) => auth.handler(c.req.raw));
 app.notFound((c) => c.json({ message: "Not Found", ok: false }, 404));
 
 app.route("/", api);
@@ -33,5 +35,5 @@ serve(
   },
   (info) => {
     console.log(`listen... [${info.port}]`);
-  }
+  },
 );
