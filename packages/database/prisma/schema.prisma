@@ -22,8 +22,8 @@ model Sku {
   unit            String
   warnThreshold   Int     @default(3)
   dangerThreshold Int     @default(1)
-  userId          String?
-  user            User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, name])
 }
